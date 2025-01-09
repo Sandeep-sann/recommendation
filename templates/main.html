@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page - Recommendations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Recommendation System</a>
+</nav>
+
+<div class="container mt-5">
+    <h1 class="text-center">Product Recommendations</h1>
+    
+    <!-- Search Form -->
+    <form action="/main" method="POST" class="mt-4" style="display:flex;">
+        <input type="text" class="form-control mr-2" name="prod" placeholder="Enter product name..." required>
+        <input type="number" class="form-control mr-2" name="nbr" placeholder="Number of products..." style="width:150px;" min="1" required>
+        <button class="btn btn-primary">Get Recommendations</button>
+    </form>
+    
+    <!-- Message -->
+    {% if message %}
+        <h5 class="mt-4 text-center">{{ message }}</h5>
+    {% endif %}
+    
+    <!-- Recommended Products -->
+    {% if content_based_rec %}
+    <div class="row mt-4">
+        {% for index, product in content_based_rec %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="card">
+            <!-- Display Product Image -->
+            <img src="{{ product['img_link'] }}" class="card-img-top" alt="{{ product['Name'] }}" style="height: 200px;">
+            
+            <div class="card-body">
+              <!-- Display Product Name -->
+              <h5 class="card-title">{{ product['Name'] }}</h5>
+              
+              <!-- Display Rating and Review Count -->
+              <p class="card-text">
+                <strong>Rating:</strong> {{ product['rating'] }} / 5<br>
+                <strong>Reviews:</strong> {{ product['rating_count'] }} reviews
+              </p>
+              
+              <!-- Display Product Price -->
+              <p class="card-text"><strong>Price:</strong> {{ product['discounted_price'] }}</p>
+              
+              <!-- Buy Now Button -->
+              <a href="{{ product['product_link'] }}" target="_blank" class="btn btn-primary">Buy Now</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

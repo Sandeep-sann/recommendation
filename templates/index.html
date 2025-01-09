@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Wrapper for the video to maintain 16:9 aspect ratio */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Ecommerce Recommendation System</a>
+</nav>
+
+<div class="container mt-5">
+    <!-- Video will autoplay, loop, and maintain 16:9 aspect ratio -->
+    <div class="video-container mt-4">
+        <video autoplay loop muted>
+            <source src="{{ url_for('static', filename='videos/v.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Go To Main Page Button -->
+    <div class="text-center mt-5">
+        <a href="/main" class="btn btn-primary btn-lg">Go To Main Page</a>
+    </div>
+
+    <!-- Trending Products -->
+    <div class="container mt-5">
+      <h2 class="text-center mb-4">Trending Products</h2>
+      <div class="row">
+        {% for index, product in trending_products %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+          <div class="card">
+            <!-- Display Product Image -->
+            <img src="{{ random_product_image_urls[loop.index0] }}" class="card-img-top" alt="{{ product['Name'] }}" style="height: 200px;">
+
+            <div class="card-body">
+              <!-- Display Product Name -->
+              <h5 class="card-title">{{ product['Name'] }}</h5>
+
+              <!-- Display Rating and Rating Count -->
+              <p class="card-text">
+                <strong>Rating:</strong> {{ product['rating'] }} / 5<br>
+                <strong>Reviews:</strong> {{ product['rating_count'] }} reviews
+              </p>
+
+              <!-- Display Product Price -->
+              <p class="card-text"><strong>Price:</strong> {{ product['discounted_price'] }}</p>
+
+              <!-- Buy Now Button -->
+              <a href="{{ product['product_link'] }}" target="_blank" class="btn btn-primary">Buy Now</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
